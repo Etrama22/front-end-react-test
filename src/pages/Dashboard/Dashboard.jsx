@@ -1,213 +1,146 @@
-import React, { useEffect, useState } from "react";
-import { fetchDailyTimeSeries } from "../../services/AnalyticsService";
+import React from "react";
+import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../services/AuthService";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import "./Dashboard.css"; // Import CSS for styling
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import ReactApexChart from "react-apexcharts"; // Import ApexChart
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [timelineData, setTimelineData] = useState({});
-  const [chartData, setChartData] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const handleLogout = () => {
-    logout(); // Hapus token
     navigate("/login"); // Redirect ke halaman login
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await fetchDailyTimeSeries();
-        const groupedData = processDataByMonth(data);
-        setTimelineData(groupedData);
-        const chartData = transformToChartData(groupedData);
-        setChartData(chartData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching or processing data:", error);
-        setLoading(false);
-      }
-    };
+  // Sample data for chart (replace this with actual data later)
 
-    getData();
-  }, []);
-
-  const processDataByMonth = (data) => {
-    const monthlyData = {};
-    Object.keys(data).forEach((date) => {
-      const [year, month] = date.split("-");
-      const key = `${year}-${month}`;
-      if (!monthlyData[key]) {
-        monthlyData[key] = [];
-      }
-      monthlyData[key].push({
-        date,
-        ...data[date],
-      });
-    });
-    return monthlyData;
-  };
-
-  const transformToChartData = (monthlyData) => {
-    const labels = Object.keys(monthlyData);
-    const openPrices = labels.map((label) => {
-      return (
-        monthlyData[label].reduce(
-          (sum, day) => sum + parseFloat(day["1. open"]),
-          0
-        ) / monthlyData[label].length
-      );
-    });
-    const closePrices = labels.map((label) => {
-      return (
-        monthlyData[label].reduce(
-          (sum, day) => sum + parseFloat(day["4. close"]),
-          0
-        ) / monthlyData[label].length
-      );
-    });
-
-    return {
-      labels: labels,
-      datasets: [
-        {
-          label: "Open Price",
-          data: openPrices,
-          borderColor: "rgba(75,192,192,1)",
-          backgroundColor: "rgba(75,192,192,0.2)",
-          tension: 0.4,
+  // State for ApexChart
+  const [apexChartState] = React.useState({
+    series: [
+      {
+        name: "series1",
+        data: [31, 40, 28, 51, 42, 109, 100],
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+        type: "area",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      xaxis: {
+        type: "datetime",
+        categories: [
+          "2018-09-19T00:00:00.000Z",
+          "2018-09-19T01:30:00.000Z",
+          "2018-09-19T02:30:00.000Z",
+          "2018-09-19T03:30:00.000Z",
+          "2018-09-19T04:30:00.000Z",
+          "2018-09-19T05:30:00.000Z",
+          "2018-09-19T06:30:00.000Z",
+        ],
+      },
+      tooltip: {
+        x: {
+          format: "dd/MM/yy HH:mm",
         },
-        {
-          label: "Close Price",
-          data: closePrices,
-          borderColor: "rgba(153,102,255,1)",
-          backgroundColor: "rgba(153,102,255,0.2)",
-          tension: 0.4,
-        },
-      ],
-    };
-  };
+      },
+    },
+  });
 
   return (
     <div className="dashboard">
       <div className="d-flex">
         {/* Sidebar */}
-        <div
-          className="sidebar bg-light d-flex flex-column p-3"
-          style={{ width: "280px", height: "100vh" }}
-        >
+        <div className="sidebar bg-dark text-white p-3">
           <a
             href="/"
-            className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+            className="d-flex align-items-center mb-3 text-white text-decoration-none"
           >
+            <i className="fa-solid fa-chart-pie me-2"></i>
             <span className="fs-4">Vortex</span>
           </a>
-          <hr />
-          <ul className="nav nav-pills flex-column mb-auto">
+          <hr className="text-secondary" />
+          <ul className="nav flex-column">
             <li className="nav-item mb-2">
-              <a
-                href="##"
-                className="nav-link active d-flex align-items-center"
-              >
+              <a href="##" className="nav-link text-white">
                 <i className="fa-solid fa-table-cells-large me-2"></i>
                 Dashboard
               </a>
             </li>
             <li className="nav-item mb-2">
-              <a
-                href="##"
-                className="nav-link text-dark d-flex align-items-center"
-              >
+              <a href="##" className="nav-link text-secondary">
                 <i className="fa-solid fa-key me-2"></i>
                 Token
               </a>
             </li>
             <li className="nav-item mb-2">
-              <button onClick={handleLogout} className="btn btn-danger">
-                Logout
-              </button>
+              <a href="##" className="nav-link text-secondary">
+                <i className="fa-solid fa-user me-2"></i>
+                Users
+              </a>
             </li>
-            {/* Add other nav items here */}
+            <li className="nav-item mb-2">
+              <a href="##" className="nav-link text-secondary">
+                <i className="fa-solid fa-gear me-2"></i>
+                Settings
+              </a>
+            </li>
           </ul>
         </div>
 
         {/* Main Content */}
-        <div className="main-content flex-grow-1 p-3">
-          <h1>Dashboard Analytic Timeline</h1>
-          {loading ? (
-            <p>Loading data...</p>
-          ) : (
-            <div>
-              {/* Cards for statistics */}
-              <div className="row mb-3">
-                <div className="col-md-3">
-                  <div className="card p-3">
-                    <h5>Total Request</h5>
-                    <p>208</p>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="card p-3">
-                    <h5>Total Gateway</h5>
-                    <p>89</p>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="card p-3">
-                    <h5>Total Source</h5>
-                    <p>622</p>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="card p-3">
-                    <h5>Total User</h5>
-                    <p>120</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Data Timeline Chart */}
-              <div className="card p-3">
-                <Line
-                  data={chartData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        position: "top",
-                      },
-                      title: {
-                        display: true,
-                        text: "Stock Prices Open vs Close (Grouped by Month)",
-                      },
-                    },
-                  }}
-                />
+        <div className="main-content flex-grow-1 p-4">
+          <h2>Dashboard Overview</h2>
+          <div className="row mb-4">
+            {/* Cards */}
+            <div className="col-md-3">
+              <div className="card p-4 text-white bg-info">
+                <h5>Total Request</h5>
+                <p>208</p>
               </div>
             </div>
-          )}
+            <div className="col-md-3">
+              <div className="card p-4 text-white bg-warning">
+                <h5>Total Gateway</h5>
+                <p>89</p>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card p-4 text-white bg-success">
+                <h5>Total Source</h5>
+                <p>622</p>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card p-4 text-white bg-danger">
+                <h5>Total User</h5>
+                <p>120</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Data Timeline Chart */}
+          <div className="card p-4">
+            <h5>Data Timeline (Chart.js)</h5>
+            {/* ApexChart Implementation */}
+            <ReactApexChart
+              options={apexChartState.options}
+              series={apexChartState.series}
+              type="area"
+              height={350}
+            />
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="btn btn-outline-danger mt-4"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </div>
