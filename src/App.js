@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from "./components/navbar";
+import BlogIndex from "./pages/Blog/index";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Login from "./pages/Auth/login";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
 
-function App() {
+const Layout = () => {
+  const location = useLocation();
+  const hideNavbar = location.pathname === "/dashboard"; // Navbar disembunyikan di halaman dashboard
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!hideNavbar && <Navbar />}{" "}
+      {/* Hanya tampilkan Navbar jika bukan di dashboard */}
+      <Routes>
+        <Route path="/" element={<BlogIndex />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </>
   );
-}
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Layout />
+    </Router>
+  );
+};
 
 export default App;

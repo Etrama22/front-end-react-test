@@ -1,0 +1,278 @@
+:root {
+  --primaryTextColor: #ffffff;
+  --secondaryTextColor: #c0c7ca;
+
+  --primaryBackgroundColor: rgba(255, 255, 255, 1);
+
+  --borderColor: #f1f1f1;
+  --lineColor: #d9d9d9;
+
+  --primaryColor: rgba(85, 117, 165, 1);
+  --primaryColorHover: rgb(46, 75, 118);
+}
+
+/* General */
+a {
+  text-decoration: none;
+  color: rgba(137, 137, 137, 1);
+}
+
+/* Navigation bar*/
+.navbar {
+  height: 70px;
+  padding: 0.5rem;
+  background-color: var(--primaryBackgroundColor);
+}
+
+.offcanvas {
+  border-radius: 16px;
+  margin: 20px;
+}
+
+.offcanvas-header {
+  font-size: 18px;
+}
+
+.offcanvas-title {
+  font-size: 24px;
+  color: var(--primaryColor);
+}
+
+.offcanvas-body {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.login-button {
+  width: 97px;
+  height: 44px;
+  text-align: center;
+  opacity: 0px;
+  background-color: var(--primaryColor);
+  color: var(--primaryTextColor);
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.3s background-color;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.login-button:hover {
+  background-color: var(--primaryColorHover);
+}
+
+.navbar-toggler {
+  border: none;
+  font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.nav-link {
+  color: #0e004a;
+  position: relative;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.offcanvas-body .navbar-nav .nav-item .nav-link.active {
+  color: var(--primaryTextColor);
+}
+
+.nav-link:hover,
+.nav-link:active {
+  color: var(--primaryColor);
+}
+
+@media (min-width: 992px) {
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--primaryColor);
+    visibility: hidden;
+    transition: 0.3 ease-in-out;
+  }
+
+  .nav-link:hover::before,
+  .nav-link.active::before {
+    width: 100%;
+    visibility: visible;
+  }
+
+  /* Section 1 */
+  .main-title {
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+  h6.card-title {
+    font-family: "Outfit", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 23px;
+    text-align: left;
+  }
+  p.card-text {
+    font-family: "Outfit", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+  }
+
+  .write-blog {
+    width: Hug (92px) px;
+    height: Hug (37px) px;
+    padding: 10px 12px 10px 12px;
+    gap: 8px;
+    border-radius: 8px;
+    opacity: 0px;
+  }
+
+  /* Form Section */
+  .form-control {
+    height: 41px;
+  }
+
+  .button-1 {
+    background: rgba(255, 212, 9, 1);
+  }
+
+  button.btn {
+    padding: 0px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .category {
+    text-decoration: none;
+    color: #9d9d9d;
+    padding-bottom: 5px;
+    transition: all 0.3s ease-in-out;
+    position: relative; /* Untuk memungkinkan positioning absolut pada garis bawah */
+  }
+
+  .category:hover {
+    color: #000000;
+  }
+
+  /* Garis berwarna di bawah link yang aktif */
+  .category.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px; /* Mengatur garis agar berada di posisi yang sama dengan hr */
+    height: 3px;
+    background-color: #fedc00; /* Warna biru untuk garis aktif */
+  }
+
+  /* Mengatur tampilan garis horizontal */
+  .category-line {
+    margin-top: 10px;
+    border: none;
+    border-top: 2px solid #a8a8a8; /* Warna garis horizontal */
+  }
+
+  /* Jika ingin garis hover juga muncul menyatu */
+  .category:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px; /* Menyamakan posisi garis hover */
+    height: 2px;
+    background-color: #ffe100;
+  }
+
+  /* Main Content */
+  .desc-icon {
+    font-family: "Outfit", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+  }
+
+  .label {
+    font-family: "Outfit", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    text-align: center;
+    align-content: center;
+    width: auto;
+    height: 33px;
+    border-radius: 16px;
+    border: 1px solid;
+    padding: 8px, 12px, 8px, 12px;
+    background: rgba(247, 248, 250, 1);
+    border-color: rgba(240, 240, 240, 1);
+  }
+
+  div.recently-saved > p {
+    font-family: "Outfit", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+  }
+
+  /* Pagination Style */
+  .pagination-text {
+    color: rgba(79, 86, 101, 1);
+    font-family: "Rubik", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.59px;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+
+  .pagination .page-link {
+    color: #000; /* Warna teks default */
+    padding: 8px 12px;
+    margin: 0 3px;
+    background-color: transparent; /* Menghilangkan background */
+    border: none; /* Menghilangkan border */
+  }
+
+  .pagination .page-item.active .page-link {
+    background: rgba(58, 112, 217, 1);
+    /* Warna biru untuk halaman aktif */
+    color: white; /* Warna teks putih pada halaman aktif */
+    border-radius: 5px;
+  }
+
+  .pagination .page-link:hover {
+    background: rgba(58, 112, 217, 1);
+    /* Warna saat hover */
+    color: white;
+    border-radius: 5px;
+  }
+
+  .pagination .page-item.disabled .page-link {
+    color: #ccc; /* Warna untuk halaman yang dinonaktifkan */
+  }
+
+  .pagination .page-link:focus {
+    box-shadow: none; /* Menghilangkan shadow saat focus */
+  }
+}
